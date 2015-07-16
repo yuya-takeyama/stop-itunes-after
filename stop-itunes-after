@@ -1,5 +1,5 @@
 #!/usr/bin/env osascript -l JavaScript
-// filetype: javascript
+/* vim: set filetype=javascript : */
 
 function run(argv) {
 	var iTunes = Application('iTunes');
