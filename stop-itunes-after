@@ -1,0 +1,50 @@
+#!/usr/bin/env osascript -l JavaScript
+// filetype: javascript
+
+function run(argv) {
+	var iTunes = Application('iTunes');
+
+	if (!argv[0]) {
+		console.log('Usage: stop-itunes-after TIME');
+		ObjC.import('stdlib');
+		$.exit(1);
+	}
+
+	var secondPattern = /^([1-9][0-9]*)(?:s|sec|seconds?)?$/;
+	var minutePattern = /^([1-9][0-9]*)(?:m|min|minutes?)$/;
+	var hourPattern = /^([1-9][0-9]*)(?:h|hours?)$/;
+	var time;
+	var sec;
+	var match;
+	var unit;
+
+	match = secondPattern.exec(argv[0]);
+
+	if (match) {
+		time = parseInt(match[1]);
+		sec  = time;
+		unit = 'second';
+	} else {
+		match = minutePattern.exec(argv[0]);
+
+		if (match) {
+			time = parseInt(match[1]);
+			sec  = time * 60;
+			unit = 'minute';
+		} else {
+			match = hourPattern.exec(argv[0]);
+
+			if (match) {
+				time = parseInt(match[1]);
+				sec  = time * 60 * 60;
+				unit = 'hour';
+			} else {
+				throw new Error('Invalid time format');
+			}
+		}
+	}
+
+	console.log('Stop iTunes after ' + time + ' ' + unit + (time > 1 ? 's' : ''));
+	delay(sec);
+	iTunes.stop();
+}
