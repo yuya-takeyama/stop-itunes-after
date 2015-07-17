@@ -47,4 +47,5 @@ function run(argv) {
   console.log('Stop iTunes after ' + time + ' ' + unit + (time > 1 ? 's' : ''));
   delay(sec);
   iTunes.stop();
+  console.log('Stopped');
 }
